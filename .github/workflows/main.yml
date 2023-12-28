@@ -18,11 +18,22 @@ jobs:
           cache: maven
       
       - name: Build with maven
-        run: mvn -B package --file pom.xml
+        run: | 
+          mvn -B package --file pom.xml
+          ls -lt
 
-      - name: Upload JaCoCo coverage report
-        uses: actions/upload-artifact@v2
+  automated-test:
+    runs-on : ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
         with:
-          name: jacoco-reports
-          path: target/site/jacoco/
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+      - name: Execute tests with maven
+        run: | 
+          mvn -Dmaven.test.failure.ignore=true test
+          ls -lt
 
