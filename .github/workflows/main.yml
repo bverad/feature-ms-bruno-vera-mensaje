@@ -32,14 +32,27 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           cache: maven
-      - name: Execute tests with maven
-        run: | 
-          mvn -Dmaven.test.failure.ignore=true test
-          ls -lt
+          
+      - name: Coverage per Test Execution
+        run: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
 
-      - name: Upload JaCoCo coverage report
+      - name: Upload target folder
         uses: actions/upload-artifact@v2
         with:
-          name: jacoco-reports
-          path: target/surefire-reports/
+          name: target
+          path: |
+            ${{ github.workspace }}/target
+            ${{ github.workspace }}/reports
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Results
+          path: ${{ github.workspace }}/target/surefire-reports/*.xml
+          reporter: java-junit
+          java-version: 11
+
+
+
 
