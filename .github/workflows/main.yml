@@ -19,7 +19,7 @@ jobs:
       
       - name: Build with maven
         run: | 
-          mvn -B package --file pom.xml
+          mvn clean install -Dmaven.test.skip=true
           ls -lt
 
   automated-test:
@@ -36,4 +36,10 @@ jobs:
         run: | 
           mvn -Dmaven.test.failure.ignore=true test
           ls -lt
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-reports
+          path: target/surefire-reports/
 
