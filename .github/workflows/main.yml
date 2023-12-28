@@ -30,6 +30,7 @@ jobs:
 
       - name: Copia de Jar a Raiz de proyecto
         run: |
+          echo $GITHUB_WORKSPACE/build/libs/
           cp $GITHUB_WORKSPACE/build/libs/testing-web-complete-0.0.1-SNAPSHOT .
           chmod 777 testing-web-complete-0.0.1-SNAPSHOT.jar
           ls -lt 
