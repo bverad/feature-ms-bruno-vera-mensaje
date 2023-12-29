@@ -33,6 +33,22 @@ jobs:
         with:
           scanMetadataReportFile: build/sonar/report-task.txt   
 
+      - name: Run Coverage
+        run: |
+          chmod +x gradlew
+          ./gradlew testCoverage
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
+          token: ${{ secrets.GH_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+
 
       - name: Docker Login
         uses: docker/login-action@v2.2.0
