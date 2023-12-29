@@ -50,6 +50,15 @@ jobs:
           min-coverage-changed-files: 60
 
 
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Results
+          path:  ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml
+          reporter: java-junit
+
+
       - name: Docker Login
         uses: docker/login-action@v2.2.0
         with: 
