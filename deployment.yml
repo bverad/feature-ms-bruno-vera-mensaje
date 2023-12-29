@@ -6,14 +6,14 @@ spec:
   selector:
    matchLabels:
     app: testing-web
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         app: testing-web
     spec:
       containers:
-        - name: test-web
+        - name: testing-web
           image: bverad/testing-web:latest
           ports:
           - containerPort: 8080
