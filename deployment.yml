@@ -21,7 +21,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: testing-web
+  name: testing-web-service
   labels:
     app: testing-web
 spec:   
