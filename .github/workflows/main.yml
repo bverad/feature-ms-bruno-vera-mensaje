@@ -109,7 +109,7 @@ jobs:
 
   performance-tests:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: acceptance-tests
     name: JMeter test
     steps:
       - uses: actions/checkout@v2
