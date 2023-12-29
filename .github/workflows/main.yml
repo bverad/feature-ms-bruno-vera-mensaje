@@ -93,7 +93,7 @@ jobs:
       run: |
         kubectl apply -f deployment.yml
 
-  acceptanceTests:
+  acceptance-tests:
 
     runs-on: self-hosted
     needs: deploy
@@ -107,7 +107,32 @@ jobs:
           collection: testing-web-collection.postman_collection.json
           environment: testing-web-env.postman_environment.json
 
-      
+  performance-tests:
+    runs-on: ubuntu-latest
+    name: Execute JMeter test
+    steps:
+      - name: Create reports directory
+        run: mkdir reports
+
+      - name: Executing Test
+        uses: QAInsights/PerfAction@v5.6.2
+        with:
+          test-plan-path: ./test-plans/testing-web.jmx
+          args: "-e -o ./reports/html/"
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: result.jtl
+          if-no-files-found: error
+
+      - name: Upload HTML Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-html-reports
+          path: reports
+          if-no-files-found: error
 
     
         
