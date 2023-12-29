@@ -13,7 +13,7 @@ spec:
         app: testing-web
     spec:
       containers:
-        - name: test-web
+        - name: testing-web
           image: bverad/testing-web:latest
           ports:
           - containerPort: 8080
@@ -21,7 +21,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: testing-web
+  name: testing-web-service
   labels:
     app: testing-web
 spec:   
