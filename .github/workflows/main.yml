@@ -38,12 +38,19 @@ jobs:
           chmod +x gradlew  
           ./gradlew test
 
+      - name: Upload testing artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path:
+            ${{ github.workspace }}/build/reports
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: Test Results
-          path:  ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport.xml
+          path:  ${{ github.workspace }}/reports/jacoco/*.xml
           reporter: java-junit
 
 
