@@ -109,30 +109,22 @@ jobs:
 
   performance-tests:
     runs-on: ubuntu-latest
-    name: Execute JMeter test
     needs: deploy
+    name: JMeter test
     steps:
+      - uses: actions/checkout@v2
       - name: Create reports directory
         run: mkdir reports
-
-      - name: Executing Test
-        uses: QAInsights/PerfAction@v5.6.2
+      - name: Run JMeter Action on a test
+        uses: rbhadti94/apache-jmeter-action@v0.5.0
         with:
-          test-plan-path: ./test-plans/testing-web.jmx
-          args: "-e -o ./reports/html/"
-
-      - name: Upload Results
-        uses: actions/upload-artifact@v3
+          testFilePath: testing-web.jmx
+          outputReportsFolder: reports/
+          args: "--loglevel INFO"
+      - uses: actions/upload-artifact@v3
         with:
-          name: jmeter-results
-          path: result.jtl
-          if-no-files-found: error
-
-      - name: Upload HTML Reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-html-reports
-          path: reports
+          name: jmeter-test-results
+          path: reports/
           if-no-files-found: error
 
     
