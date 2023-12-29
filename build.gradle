@@ -17,10 +17,10 @@ dependencies {
 }
 sonar {
 	properties {
-		property "sonar.projectKey", "DEVOPS-Fundamentos-2023_microservicio-java"
-		property "sonar.organization", "devops-fundamentos-2023"
+		property "sonar.projectKey", "bverad_feature-ms-bruno-vera-mensaje"
+		property "sonar.organization", "bverad"
 		property "sonar.host.url", "https://sonarcloud.io/"
-		property "sonar.projectName", "microservicio-java"
+		property "sonar.projectName", "feature-ms-bruno-vera-mensaje"
 	}
 }
 test {
