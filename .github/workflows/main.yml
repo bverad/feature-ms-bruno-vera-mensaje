@@ -45,13 +45,8 @@ jobs:
           path:
             ${{ github.workspace }}/build/reports
 
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Test Results
-          path:  ${{ github.workspace }}/build/reports/jacoco/test/*.xml
-          reporter: java-junit
+      - name: Display JaCoCo report
+        run: cat ${{ github.workspace }}/build/reports/jacoco/test/html/index.html
 
 
       - name: Docker Login
