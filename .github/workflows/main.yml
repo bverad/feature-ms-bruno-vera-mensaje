@@ -66,7 +66,20 @@ jobs:
     - name: Deploy to Minikube
       run: |
         kubectl apply -f deployment.yml
-      
+
+  acceptanceTests:
+
+    runs-on: self-hosted
+    needs: deploy
+    steps:
+  
+      - uses: actions/checkout@v3
+  
+      - name: Postman
+        uses: matt-ball/newman-action@master
+        with:
+          collection: testing-web-collection.postman_collection.json
+          environment: testing-web-env.postman_environment.json
 
       
 
