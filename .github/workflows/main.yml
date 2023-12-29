@@ -33,20 +33,32 @@ jobs:
         with:
           scanMetadataReportFile: build/sonar/report-task.txt   
 
-      - name: Run Coverage
-        run: |
-          chmod +x gradlew  
-          ./gradlew test
+      # generates coverage-report.md and publishes as checkrun
+      - name: JaCoCo Code Coverage Report
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v4.9
+        with:
+          coverage_results_path: jacoco-report/test.xml
+          coverage_report_name: Coverage
+          coverage_report_title: JaCoCo
+          github_token: ${{ secrets.GH_TOKEN }}
+          skip_check_run: false
+          minimum_coverage: 80
+          fail_below_threshold: false
+          publish_only_summary: false
 
-      - name: Upload testing artifacts
+      # Publish Coverage Job Summary  # Optional
+      - name: Add Coverage Job Summary
+        run: echo "${{ steps.jacoco_reporter.outputs.coverageSummary }}" >> $GITHUB_STEP_SUMMARY
+
+      # uploads the coverage-report.md artifact  # Optional
+
+      - name: Upload Code Coverage Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: reports
-          path:
-            ${{ github.workspace }}/build/reports
-
-      - name: Display JaCoCo report
-        run: cat ${{ github.workspace }}/build/reports/jacoco/test/html/index.html
+          name: code-coverage-report-markdown
+          path: "*/coverage-results.md"
+          retention-days: 1
 
 
       - name: Docker Login
