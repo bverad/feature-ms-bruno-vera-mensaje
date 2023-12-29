@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-web
+  name: testing-web
 spec:
   selector:
    matchLabels:
-    app: test-web
+    app: testing-web
   replicas: 2
   template:
     metadata:
       labels:
-        app: test-web
+        app: testing-web
     spec:
       containers:
         - name: test-web
-          image: bvera/test-web:latest
+          image: bvera/testing-web:latest
           ports:
           - containerPort: 8085
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: test-web
+  name: testing-web
   labels:
-    app: test-web
+    app: testing-web
 spec:   
   type: LoadBalancer
   ports:
   - port: 8085
     targetPort: 8085
   selector:
-   app: test-web
+   app: testing-web
