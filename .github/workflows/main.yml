@@ -110,6 +110,7 @@ jobs:
   performance-tests:
     runs-on: ubuntu-latest
     name: Execute JMeter test
+    needs: deploy
     steps:
       - name: Create reports directory
         run: mkdir reports
